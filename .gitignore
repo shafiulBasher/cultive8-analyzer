@@ -1,0 +1,46 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+# Tests and test-only configuration
+tests/
+pytest.ini
+.coverage
+coverage.xml
+htmlcov/
+
+# Local runtime data and logs
+data/
+*.log
+*.sqlite3
+.env
+*.env
+
+# Downloaded model files and caches
+.DS_Store
+*.gguf
+.model_cache/
+*.sqlite3-wal
+*.sqlite3-shm
+
+# Editor and OS artifacts
+.vscode/
+.idea/
+Thumbs.db
+
+# Temporary backups and one-off maintenance scripts
+backup-*/
+*.backup-*
+*fix*.ps1
+*_fix.ps1
+apply_*_fix.ps1
+
+VIDEO_SCRIPT.md
+.venv/
+__pycache__/
+.pytest_cache/
+data/
+*.gguf
+backup-*/
+*.backup-*

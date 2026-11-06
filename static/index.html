@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cultive8 | Local AI Security Analyzer</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-mark">C8</span><span>CULTIVE8 <small>SECURITY LAB</small></span></a>
+      <div class="top-meta"><span class="local-dot"></span><span>LOCAL INFERENCE ONLY</span><span class="divider"></span><span id="modelState">Checking model…</span></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span>01</span> / SECURITY OPERATIONS</div>
+        <h1>Find the signal.<br><em>Expose the threat.</em></h1>
+        <p class="lede">Analyze server logs with a locally running language model. Trace suspicious activity across chunks, preserve original line references, and review evidence in one report.</p>
+      </section>
+
+      <section class="workspace-grid">
+        <div class="panel upload-panel">
+          <div class="panel-heading"><div><span class="section-number">A</span><h2>New analysis</h2></div><span class="tag">MAX 25 MB</span></div>
+          <label class="dropzone" id="dropzone" for="logFile">
+            <input id="logFile" type="file" accept=".log,.txt,text/plain">
+            <span class="upload-symbol">↥</span>
+            <strong id="fileTitle">Drop a log file here</strong>
+            <span id="fileSub">or browse .log / .txt files</span>
+            <span class="file-pill" id="filePill" hidden></span>
+          </label>
+          <button class="primary-button" id="analyzeBtn" disabled><span>Run security analysis</span><b>↗</b></button>
+          <div class="upload-foot"><span>●</span> Files remain on this machine. No cloud AI APIs.</div>
+        </div>
+
+        <div class="panel process-panel">
+          <div class="panel-heading"><div><span class="section-number">B</span><h2>Analysis pipeline</h2></div><span class="tag muted-tag">SEQUENTIAL</span></div>
+          <div class="pipeline" id="pipeline" aria-label="Analysis pipeline">
+            <div class="pipeline-step" data-pipeline-step="tokenizing">
+              <span class="step-icon">01</span><div class="step-copy"><b>Parse & tokenize</b><small>Stream log entries and preserve source line numbers</small></div><span class="step-status">WAITING</span>
+            </div>
+            <div class="pipeline-line" data-pipeline-line="1"></div>
+            <div class="pipeline-step" data-pipeline-step="analyzing">
+              <span class="step-icon">02</span><div class="step-copy"><b>Local model analysis</b><small>One 2,048-token call at a time</small></div><span class="step-status">WAITING</span>
+            </div>
+            <div class="pipeline-line" data-pipeline-line="2"></div>
+            <div class="pipeline-step" data-pipeline-step="correlating">
+              <span class="step-icon">03</span><div class="step-copy"><b>Correlate & consolidate</b><small>Link IPs, accounts and events across chunks</small></div><span class="step-status">WAITING</span>
+            </div>
+            <div class="pipeline-line" data-pipeline-line="3"></div>
+            <div class="pipeline-step" data-pipeline-step="reporting">
+              <span class="step-icon">04</span><div class="step-copy"><b>Evidence report</b><small>Severity, line references and suggested action</small></div><span class="step-status">WAITING</span>
+            </div>
+          </div>
+          <div class="model-card"><div class="model-icon">AI</div><div><b>Qwen3.5 · 0.8B · Q4_0</b><small>llama.cpp / CPU · Context 2K</small></div><span class="local-label">ON DEVICE</span></div>
+        </div>
+      </section>
+
+      <section class="panel progress-panel" id="progressPanel" hidden>
+        <div class="panel-heading"><div><span class="section-number">C</span><h2>Live analysis</h2></div><span class="status-chip" id="statusChip">QUEUED</span></div>
+        <div class="progress-row"><div><strong id="progressTitle">Preparing analysis</strong><small id="progressText">Waiting for local model…</small></div><span class="mono" id="chunkCount">0 chunks</span></div>
+        <div class="progress-track"><span id="progressBar"></span></div>
+        <div class="progress-meta"><span id="phaseText">Queued</span><span id="elapsedText">Sequential processing</span></div>
+        <div class="error-box" id="errorBox" hidden></div>
+        <div class="chunk-activity" id="chunkActivity" hidden>
+          <div class="chunk-activity-heading"><span>RECENT CHUNK ACTIVITY</span><span id="chunkOutcomeCount">0 succeeded · 0 failed</span></div>
+          <div class="chunk-table-wrap">
+            <table class="chunk-table"><thead><tr><th>Chunk</th><th>Lines</th><th>Status</th><th>Time</th><th>Details</th></tr></thead><tbody id="chunkRows"></tbody></table>
+          </div>
+        </div>
+      </section>
+
+      <section class="report-section" id="reportSection" hidden>
+        <div class="report-heading"><div><div class="eyebrow"><span>02</span> / FINAL REPORT</div><h2>Security findings</h2></div><button class="secondary-button" id="exportBtn">Export JSON ↓</button></div>
+        <div class="stats-grid">
+          <div class="stat-card"><small>FINDINGS</small><strong id="statFindings">0</strong></div>
+          <div class="stat-card"><small>CRITICAL / HIGH</small><strong id="statHigh">0</strong></div>
+          <div class="stat-card"><small>CHUNKS ANALYZED</small><strong id="statChunks">0</strong></div>
+          <div class="stat-card"><small>SOURCE RECORDS</small><strong id="statLines">0</strong></div>
+        </div>
+        <div class="report-summary" id="reportSummary"></div>
+        <div class="report-ai-summary" id="aiReviewSummary" hidden></div>
+        <div class="report-warnings" id="reportWarnings" hidden></div>
+        <div class="findings-list" id="findingsList"></div>
+      </section>
+
+      <footer><span>CULTIVE8 / LOCAL AI SECURITY LOG ANALYZER</span><span>BUILT FOR EVIDENCE, NOT ASSUMPTIONS</span></footer>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
